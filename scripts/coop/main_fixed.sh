@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # custom config
-DATA="/Users/divyanshjha/Desktop/4th_Year/4-2/Graph_Mining_project/CLIP_CoOp/CoOp/datasets"
+DATA=/path/to/datasets
 TRAINER=CoOp
-PYTHON=/opt/anaconda3/envs/dassl/bin/python
+export PYTHONPATH="/Users/divyanshjha/Desktop/4th Year/4-2/Graph_Mining_project/CLIP_CoOp/CoOp/Dassl.pytorch:$PYTHONPATH"
 
 DATASET=$1
 CFG=$2  # config file
@@ -18,8 +18,8 @@ do
     if [ -d "$DIR" ]; then
         echo "Oops! The results exist at ${DIR} (so skip this job)"
     else
-        $PYTHON train.py \
-        --root "${DATA}" \
+        conda run -n dassl python train.py \
+        --root ${DATA} \
         --seed ${SEED} \
         --trainer ${TRAINER} \
         --dataset-config-file configs/datasets/${DATASET}.yaml \

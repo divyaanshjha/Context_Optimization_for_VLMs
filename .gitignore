@@ -128,6 +128,36 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Custom
+# Custom - Project specific
 output/
+datasets/
 debug.sh
+
+# Model checkpoints and weights
+*.pth
+*.pt
+*.pth.tar
+*.ckpt
+
+# Tensorboard logs
+tensorboard/
+runs/
+lightning_logs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Cache files
+.cache/
+*.cache
+
+# Large downloaded models/pretrained weights
+checkpoints/
+*.bin
+models/
