@@ -93,6 +93,11 @@ def extend_cfg(cfg):
     cfg.TRAINER.COOP.CTX_INIT = ""  # initialization words
     cfg.TRAINER.COOP.PREC = "fp16"  # fp16, fp32, amp
     cfg.TRAINER.COOP.CLASS_TOKEN_POSITION = "end"  # 'middle' or 'end' or 'front'
+    # Graph-specific parameters
+    cfg.TRAINER.COOP.GRAPH_THRESHOLD = 0.3  # cosine similarity cutoff for edges
+    cfg.TRAINER.COOP.ALPHA_SMOOTH = 0.1  # label smoothing strength (0 = off)
+    cfg.TRAINER.COOP.LAMBDA_LAP = 0.01  # Laplacian regularization weight (0 = off)
+    cfg.TRAINER.COOP.USE_GCN = False  # toggle GCN on/off
 
     cfg.TRAINER.COCOOP = CN()
     cfg.TRAINER.COCOOP.N_CTX = 16  # number of context vectors

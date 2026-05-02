@@ -12,7 +12,6 @@ import os.path as osp
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from torch.cuda.amp import GradScaler, autocast
 
 from dassl.engine import TRAINER_REGISTRY, TrainerX
 from dassl.metrics import compute_accuracy
@@ -200,6 +199,7 @@ class CustomCLIP(nn.Module):
         self.text_encoder = TextEncoder(clip_model)
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
+        self.num_classes = len(classnames)
 
     def forward(self, image):
         image_features = self.image_encoder(image.type(self.dtype))
@@ -214,7 +214,7 @@ class CustomCLIP(nn.Module):
         logit_scale = self.logit_scale.exp()
         logits = logit_scale * image_features @ text_features.t()
 
-        return logits, text_features 
+        return logits, text_features
 
 @TRAINER_REGISTRY.register()
 class CoOpGraph(TrainerX):                  # rename the class
@@ -273,6 +273,13 @@ class CoOpGraph(TrainerX):                  # rename the class
             "prompt_learner", self.model.prompt_learner,
             self.optim, self.sched
         )
+
+    def parse_batch_train(self, batch):
+        input = batch["img"]
+        label = batch["label"]
+        input = input.to(self.device)
+        label = label.to(self.device)
+        return input, label
 
     def forward_backward(self, batch):
         image, label = self.parse_batch_train(batch)
