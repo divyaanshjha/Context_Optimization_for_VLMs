@@ -351,3 +351,15 @@ class CoOpGraph(TrainerX):                  # rename the class
             self.update_lr()
 
         return loss_summary
+
+    def model_inference(self, input):
+        """Inference method for evaluation.
+        
+        Returns only logits (not the tuple with text_features).
+        The model.forward() returns (logits, text_features) for training,
+        but the evaluator expects only logits.
+        """
+        logits, _ = self.model(input)
+        return logits
+
+        return loss_summary
